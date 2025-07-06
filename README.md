@@ -2,20 +2,20 @@
 
 This project integrates a **RAG (Retrieval-Augmented Generation)** pipeline with both **vector-based** and **graph-based** retrieval using:
 
-- **Milvus** for vector similarity search
-- **Neo4j** for graph query execution
-- **Groq (LLaMA3)** for Cypher query generation from natural language
-- **LaBSE** and **CrossEncoder** for multilingual embedding and reranking
+- **Milvus** for vector similarity search  
+- **Neo4j** for graph query execution  
+- **Groq (LLaMA3)** for Cypher query generation from natural language  
+- **LaBSE** and **CrossEncoder** for multilingual embedding and reranking  
 
 ---
 
 ## Features
 
-- Vector search over multilingual documents
-- CrossEncoder reranking of search results
-- Natural language to Cypher query generation
-- Neo4j execution and visualization-ready outputs
-- Designed as LangChain-compatible `FastMCP` toolchain
+- Vector search over multilingual documents  
+- CrossEncoder reranking of search results  
+- Natural language to Cypher query generation  
+- Neo4j execution and visualization-ready outputs  
+- Fully compatible with **LangChain** via `FastMCP` toolchain  
 
 ---
 
@@ -46,7 +46,7 @@ Create a `.env` file in the same directory as `main.py`:
 MILVUS_HOST=localhost
 MILVUS_PORT=19530
 MILVUS_TOKEN=your_milvus_token
-COLLECTION_NAME=ycollection_name
+COLLECTION_NAME=your_collection_name
 
 # Neo4j
 NEO4J_URI=bolt://localhost:7687
@@ -65,10 +65,25 @@ GROQ_MODEL=llama3-70b-8192
 
 ```
 .
-├── main.py          # Main logic for ingestion, search, and graph querying
-├── .env             # Environment variables for Milvus, Neo4j, Groq
-├── requirements.txt # Python dependencies
-└── README.md        # You're here
+├── main.py              # Entry point; runs the FastMCP toolchain
+├── README.md
+├── requirements.txt
+├── .env
+
+├── api/
+│   └── mcp_tools.py     # LangChain compatible FastMCP tool definitions
+
+├── core/
+│   └── embedding.py     # Embedding and reranking logic (LaBSE, CrossEncoder)
+
+├── services/
+│   ├── groq_client.py   # Handles Groq API calls and Cypher generation
+│   ├── milvus_client.py # Milvus collection creation, insertion, and querying
+│   └── neo4j_client.py  # Cypher query execution and graph result parsing
+
+└── utils/
+    ├── extract.py       # Document extraction and preprocessing utilities
+    └── logger.py        # Configured logger for consistent logging
 ```
 
 ---
@@ -91,7 +106,7 @@ This makes the tools compatible with LangChain or other agentic systems using Fa
 
 ---
 
-## Tools Defined in `main.py`
+## Tools Defined in `api/mcp_tools.py`
 
 ### Ingest Documents
 
